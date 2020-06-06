@@ -22,3 +22,8 @@
   align-items: flex-start;
   flex-wrap: wrap;
 }
+
+.card-header {
+  background: transparent;
+  border: 0;
+}
