@@ -3,23 +3,25 @@ const axios = require("axios");
 const jwt = require("jsonWebToken");
 const  httpStatus = require("http-status-codes");
 
-
-
-
 module.exports = {
 
-	index: (req, res) => {
+	index: (req, res, next) => {
 		var token = req.cookies.authToken;
-		console.log("Im Notes" + req.cookies.authToken);
 		const config = {
 			headers: { Authorization: `Bearer ${token}` }
 		};
-
 		return axios.get("https://bowtie.mailbutler.io/api/v2/notes", config)
 			.then((notes) => {
 				console.log(notes.data);
-				//res.render("index");
-			}).catch(e => console.log(e));
+				res.locals.notes = notes.data;
+				next();
+			}).catch(e => {
+				console.log(e);
+				next(e);
+			});
+	},
+	indexView: (req, res) => {
+		res.render("notes/index");
 	},
 
 	verifyJWT: (req, res, next) => {
@@ -58,7 +60,6 @@ module.exports = {
 				error: true,
 				message: "No token provided"
 			});
-
 		}
 	}
 };
