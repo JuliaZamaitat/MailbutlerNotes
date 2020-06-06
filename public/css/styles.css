@@ -1,4 +1,4 @@
-#small-card{
+.small-card.card {
   background-color: rgba(246,204,118,.35);
   width: 294px;
 }
@@ -6,7 +6,9 @@
 .note-text {
   overflow: hidden;
   resize: none;
-  font-size = 14px;
+  max-height: 80px;
+  height: 80px;
+  font-size: 14px;
   font-family: Open Sans,sans-serif;
   font-weight: 400;
   padding: 0;
@@ -14,7 +16,13 @@
   border: 0;
   background: transparent;
   outline: none;
-  transition: height .25s ease-in-out; */
+  transition: max-height .5s ease-in-out;
+}
+.note-text:active,
+.note-text:focus {
+  max-height: 20000px;
+  transition: max-height .5s ease-in-out;
+  height: auto;
 }
 
 .card-columns{

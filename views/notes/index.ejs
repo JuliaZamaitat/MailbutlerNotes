@@ -1,11 +1,11 @@
   <div class="card-columns">
     <% notes.forEach(n => { %>
-      <div id="small-card" class="card small-card m-3">
+      <div id="<%= n.id%>" class="card small-card m-3">
         <div class="card-header text-right">
-          <a class="btn delete-button" id="<%= n.id%>"><i class="far fa-trash-alt"></i></a>
+          <a class="btn delete-button"><i class="far fa-trash-alt"></i></a>
         </div>
         <div class="card-body mt-0">
-            <div class="note-text" id="<%= n.id%>" contenteditable="true"> <%= n.text %> </div>
+            <div class="note-text" contenteditable="true"> <%= n.text %> </div>
         </div>
         <div class="card-footer">Footer</div>
       </div>
@@ -14,13 +14,14 @@
 
   <script>
     $('.delete-button').on('click', function(event){
-        let note_id = event.currentTarget.id;
+        let note_id = $(this).parents('.card').attr('id');
         $.get("notes/delete/" + note_id);
       });
 
       $('.note-text').on('focusout', function(event){
-          let note_id = event.currentTarget.id;
-          let text = $('.note-text').text();
+          let note_id = $(this).parents('.card').attr('id');
+          let text = $(this).text();
           $.post("notes/" + note_id, { text: text});
         });
+
   </script>
