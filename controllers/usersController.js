@@ -11,10 +11,7 @@ module.exports = {
 				password: req.body.password
 			})
 			.then((session) => {
-
 				res.cookie("authToken",session.data.token);
-				
-
 				res.render("index");
 			}).catch(e => console.log(e));
 	}

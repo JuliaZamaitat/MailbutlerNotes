@@ -1,5 +1,11 @@
-<% notes.forEach(note => { %>
-  <h1><%= note.text %></h1>
-
-
-<% }); %>
+  <div class="card-columns">
+    <% notes.forEach(n => { %>
+      <div id="small-card" class="card rounded-card m-3">
+        <div class="card-header">Header</div>
+        <div class="card-body ">
+            <div class="note-text" contenteditable="true"> <%= n.text %> </div>
+        </div>
+        <div class="card-footer">Footer</div>
+      </div>
+    <% }); %>
+  </div>

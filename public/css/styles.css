@@ -1,0 +1,24 @@
+#small-card{
+  background-color: rgba(246,204,118,.35);
+  width: 294px;
+}
+
+.note-text {
+  overflow: hidden;
+  resize: none;
+  font-size = 14px;
+  font-family: Open Sans,sans-serif;
+  font-weight: 400;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  background: transparent;
+  outline: none;
+  transition: height .25s ease-in-out; */
+}
+
+.card-columns{
+  display: flex;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
