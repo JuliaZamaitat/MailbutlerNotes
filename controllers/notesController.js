@@ -1,6 +1,6 @@
 "use strict";
 const axios = require("axios");
-const jsonWebToken = require("jsonWebToken");
+const jwt = require("jsonWebToken");
 const  httpStatus = require("http-status-codes");
 
 
@@ -22,30 +22,43 @@ module.exports = {
 			}).catch(e => console.log(e));
 	},
 
-
 	verifyJWT: (req, res, next) => {
-		let token = req.cookies.authToken; //Retrieve the JWT from the request headers
-			if (token) {
-				//console.log(token.exp);
-	 			//console.log(jsonWebToken.verify(token, "secret", { algorithms: ['HS256'] })); //verify the JWT and decode its payload
-				//
-				// 	if (payload) {
-	      //     console.log("success, token found");
-	      //         next();
-	      //   }
-	      //    else {
-	      //     res.status(httpStatus.UNAUTHORIZED).json({
-	      //       error: true,
-	      //       message: "Cannot verify API token."
-	      //     });
-	      next();
-	      //   }
-	      // });
-	    } else {
-	      res.status(httpStatus.UNAUTHORIZED).json({
-	        error: true,
-	        message: "Provide Token"
-	      });
-	    }
-	  }
+		let token = req.cookies.authToken;
+		if (token) {
+			//decode the JWT token
+			var decodedToken = jwt.decode(token, {complete: true});
+			var payload = decodedToken.payload;
+			//check the payload
+			if(payload){
+				var dateNow = new Date();
+				//check if token is still valid
+				if(payload.exp < (dateNow.getTime()/1000)){ //token expired
+					res.locals.loggedIn = false;
+					res.status(httpStatus.UNAUTHORIZED).json({
+						error: true,
+						message: "Token expired"
+					});
+
+				} else { //everythings fine
+					console.log("everythings fine");
+					res.locals.loggedIn = true;
+					next();
+				}
+			} else { //No payload
+				res.locals.loggedIn = false;
+				res.status(httpStatus.UNAUTHORIZED).json({
+					error: true,
+					message: "Not correct token provided"
+				});
+
+			}
+		} else { //No token provided
+			res.locals.loggedIn = false;
+			res.status(httpStatus.UNAUTHORIZED).json({
+				error: true,
+				message: "No token provided"
+			});
+
+		}
+	}
 };

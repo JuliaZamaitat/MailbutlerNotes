@@ -33,24 +33,12 @@ app.use(cookieParser("secret_passcode"));
 app.use((req, res, next) => {
   // check if client sent cookie
   var cookie = req.cookies.authToken;
-
-
   if (cookie === undefined) {
     // no: set a new cookie
     res.locals.loggedIn = false;
     //res.cookie('cookieName',randomNumber, { maxAge: 900000, httpOnly: true });
     console.log('no cookie');
   } else {
-    var decodedToken = jwt.decode(cookie, {complete: true});
-    var dateNow = new Date();
-    console.log(decodedToken);
-    console.log("jwt expiration");
-    console.log(decodedToken.payload.exp);
-    console.log("time");
-    console.log(dateNow.getTime()/1000);
-    if(decodedToken.exp < (dateNow.getTime()/1000)) {
-      var isExpired = true;
-    }
     // yes, cookie was already present
     res.locals.loggedIn = true;
     console.log('cookie exists', cookie);
