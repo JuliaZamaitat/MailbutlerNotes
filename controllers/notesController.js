@@ -10,6 +10,7 @@ module.exports = {
 		};
 		return axios.get("https://bowtie.mailbutler.io/api/v2/notes", config)
 			.then((notes) => {
+				console.log(notes);
 				res.locals.notes = notes.data;
 				next();
 			}).catch(e => {
@@ -20,6 +21,24 @@ module.exports = {
 	indexView: (req, res) => {
 		res.render("notes/index");
 	},
+
+	create: (req, res) => {
+		var token = req.cookies.authToken;
+		const config = {
+			headers: { Authorization: `Bearer ${token}` },
+		};
+		const params = {
+			context: "Neuer Kontext ohne Mail",
+			text: "Deine neue Notiz"
+		};
+		return axios.post("https://bowtie.mailbutler.io/api/v2/notes/", params, config)
+			.then(() => {
+				req.flash("success", "Note added");
+				res.send();
+			}).catch(e => console.log(e));
+
+	},
+
 	update: (req, res) => {
 		var token = req.cookies.authToken;
 		var text = req.body.text;

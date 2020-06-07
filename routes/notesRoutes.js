@@ -5,6 +5,7 @@ const router = require("express").Router(),
 
 router.use(notesController.verifyJWT);
 router.get("/", notesController.index, notesController.indexView);
+router.post("/", notesController.create);
 router.get("/delete/:id", notesController.delete);
 router.post("/:id", notesController.update);
 

@@ -1,17 +1,32 @@
-  <div class="card-columns">
+
+<h1 class="text-center">Notes</h1>
+  <div class="card-columns mt-5 flex-start">
     <% notes.forEach(n => { %>
-      <div id="<%= n.id%>" class="card small-card m-3">
+      <div id="<%= n.id%>" class="card small-card shadow-sm m-3">
         <div class="card-header text-right">
-          <a class="btn delete-button"><i class="far fa-trash-alt"></i></a>
+          <a class="btn delete-button p-0"><i class="far fa-trash-alt"></i></a>
         </div>
-        <div class="card-body mt-0">
+        <div class="card-body m-0">
             <div class="note-text" contenteditable="true"> <%= n.text %> </div>
         </div>
       </div>
     <% }); %>
   </div>
 
+  <div class="text-center mt-4 add-note">
+    <a class="btn add-button"><i class="fas fa-plus fa-2x"></i></a>
+  </div>
+
+
+
+
   <script>
+    $('.add-button').on('click', function(event){
+        $.post("notes", () => {
+            window.location = "/notes";
+        });
+      });
+
     $('.delete-button').on('click', function(event){
         let note_id = $(this).parents('.card').attr('id');
         $.get("notes/delete/" + note_id, () => {
