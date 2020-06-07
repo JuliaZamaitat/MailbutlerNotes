@@ -18,8 +18,6 @@
   </div>
 
 
-
-
   <script>
     $('.add-button').on('click', function(event){
         $.post("notes", () => {
@@ -39,5 +37,16 @@
           let text = $(this).text();
           $.post("notes/" + note_id, { text: text});
         });
+
+
+        // $(function() {
+        //
+        //   var e = $(".note-text")
+        //   console.log(e[1]);
+        //   console.log(e[1].scrollHeight);
+        //   console.log(e.scrollHeight > e.clientHeight);
+        //
+        // });
+
 
   </script>

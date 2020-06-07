@@ -1,8 +1,5 @@
-
-
 <!DOCTYPE html>
 <html>
-
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=0.8, maximum-scale=1">
@@ -14,12 +11,9 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/js/all.min.js" integrity="sha256-+Q/z/qVOexByW1Wpv81lTLvntnZQVYppIL1lBdhtIq0=" crossorigin="anonymous"></script>
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 		<link rel="stylesheet" href="/css/styles.css">
-
-
 </head>
 
 <body>
-
 	<div class="flashes">
 			<% if (flashMessages) { %>
 			<% if (flashMessages.success) { %>
@@ -33,33 +27,25 @@
 			<% } %>
 			<% } %>
 		</div>
-
 	<div id="nav">
 		<div class="login-status text-right mt-3 mr-3">
 			<% if (loggedIn)  { %>
 					Logged in
-				<a href="/users/logout"><i class="fas fa-sign-out-alt ml-2"></i></a>
+				<a href="/users/logout"><i class="fas fa-sign-out-alt ml-3 mr-2"></i></a>
 			<%} else {%>
 			<div class="bubble log-in">
 				<a href="/">Log In</a>
 			</div>
 			<% } %>
 		</div>
-
 	</div>
-
-
-
 	<div class="container-xl mt-4">
 		<%- body %>
 	</div>
-
 </body>
-
 </html>
 
 <script>
-
 	$(function() {
 		if (window.location.pathname == "/") {
 			$('.log-in').hide();
@@ -69,5 +55,4 @@
 	setTimeout(function() {
 			$(".flash").fadeOut("slow");
 	}, 2000);
-
 </script>

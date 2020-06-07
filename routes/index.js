@@ -9,5 +9,4 @@ router.use("/", homeRoutes);
 router.use("/users", userRoutes);
 router.use("/notes", notesRoutes);
 
-
 module.exports = router;

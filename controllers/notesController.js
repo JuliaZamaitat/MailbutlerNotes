@@ -1,16 +1,13 @@
 "use strict";
-const axios = require("axios");
-const jwt = require("jsonWebToken");
+const axios = require("axios"),
+	jwt = require("jsonWebToken"),
+	apiURL = "https://bowtie.mailbutler.io/api/v2/";
+let token, config;
 
 module.exports = {
 	index: (req, res, next) => {
-		var token = req.cookies.authToken;
-		const config = {
-			headers: { Authorization: `Bearer ${token}` }
-		};
-		return axios.get("https://bowtie.mailbutler.io/api/v2/notes", config)
+		return axios.get(apiURL + "notes", config)
 			.then((notes) => {
-				console.log(notes);
 				res.locals.notes = notes.data;
 				next();
 			}).catch(e => {
@@ -23,46 +20,33 @@ module.exports = {
 	},
 
 	create: (req, res) => {
-		var token = req.cookies.authToken;
-		const config = {
-			headers: { Authorization: `Bearer ${token}` },
-		};
 		const params = {
 			context: "Neuer Kontext ohne Mail",
 			text: "Deine neue Notiz"
 		};
-		return axios.post("https://bowtie.mailbutler.io/api/v2/notes/", params, config)
+		return axios.post(apiURL + "notes", params, config)
 			.then(() => {
 				req.flash("success", "Note added");
 				res.send();
 			}).catch(e => console.log(e));
-
 	},
 
-	update: (req, res) => {
-		var token = req.cookies.authToken;
+	update: (req) => {
 		var text = req.body.text;
-		const config = {
-			headers: { Authorization: `Bearer ${token}` },
-		};
 		const params = {
 			text: text
 		};
 		let id = req.params.id;
-		return axios.patch(`https://bowtie.mailbutler.io/api/v2/notes/${id}`,  params , config)
-			.then((res) => {
+		return axios.patch(apiURL + "notes/" + id,  params , config)
+			.then(() => {
 				console.log("Note updated");
 			}).catch(e => console.log(e));
 
 	},
 
 	delete: (req, res) => {
-		var token = req.cookies.authToken;
-		const config = {
-			headers: { Authorization: `Bearer ${token}` }
-		};
 		let id = req.params.id;
-		return axios.delete(`https://bowtie.mailbutler.io/api/v2/notes/${id}`, config)
+		return axios.delete(apiURL + "notes/" + id, config)
 			.then(() => {
 				req.flash("success", "Note deleted");
 				res.send();
@@ -70,7 +54,10 @@ module.exports = {
 	},
 
 	verifyJWT: (req, res, next) => {
-		let token = req.cookies.authToken;
+		token = req.cookies.authToken;
+		config = {
+			headers: { Authorization: `Bearer ${token}` }
+		};
 		if (token) {
 			//decode the JWT token
 			var decodedToken = jwt.decode(token, {complete: true});

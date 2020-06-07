@@ -9,6 +9,4 @@ router.post("/", notesController.create);
 router.get("/delete/:id", notesController.delete);
 router.post("/:id", notesController.update);
 
-
-
 module.exports = router;

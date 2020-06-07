@@ -21,7 +21,6 @@
     "http-status-codes": "^1.4.0",
     "jsonwebtoken": "^8.5.1",
     "keygenerator": "^1.0.4",
-    "method-override": "^3.0.0",
     "nodemon": "^2.0.4"
   }
 }

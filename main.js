@@ -3,15 +3,12 @@
 const express = require("express"),
   app = express(),
   layouts = require("express-ejs-layouts"),
-  methodOverride = require("method-override"),
   expressSession = require("express-session"),
   cookieParser = require("cookie-parser"),
   connectFlash = require("connect-flash"),
-  router = require("./routes/index"),
-  axios = require("axios"),
   jwt = require("jsonwebtoken"),
-  keygen = require("keygenerator");
-
+  keygen = require("keygenerator"),
+  router = require("./routes/index");
 
 app.set("view engine", "ejs");
 app.set("port", process.env.PORT || 4000);
@@ -25,13 +22,9 @@ app.use(express.json());
 app.use(layouts);
 app.use(express.static("public"));
 
-app.use(methodOverride("_method", {
-  methods: ["POST", "GET"]
-}));
-
 const sessionID = keygen.session_id()
 app.use(cookieParser(sessionID));
-app.use(expressSession({ //Configure express-session to use cookie-parser
+app.use(expressSession({ 
   secret: sessionID,
   cookie: {
     maxAge: 4000000
@@ -48,11 +41,10 @@ app.use((req, res, next) => {
     let token = cookies.authToken;
     if (!token) {
       res.locals.loggedIn = false;
+    } else {
+      res.locals.loggedIn = true;
     }
   }
-  // res.locals.loggedIn = req.isAuthenticated();
-  // console.log("Logged" +res.locals.loggedIn);
-  // res.locals.currentUser = req.user;
   next();
 });
 

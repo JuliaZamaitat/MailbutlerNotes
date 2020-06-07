@@ -1,14 +1,15 @@
 "use strict";
-const axios = require("axios");
+const axios = require("axios"),
+	apiURL = "https://bowtie.mailbutler.io/api/v2/";
 
 module.exports = {
 	login: (req, res) => {
-		return axios.post("https://bowtie.mailbutler.io/api/v2/users/login",
+		return axios.post(apiURL + "users/login",
 			{ email: req.body.email,
 				password: req.body.password
 			})
 			.then((session) => {
-				res.cookie("authToken",session.data.token);
+				res.cookie("authToken", session.data.token);
 				res.locals.loggedIn = true;
 				res.redirect("/notes");
 			}).catch(() => {
