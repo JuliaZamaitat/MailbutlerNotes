@@ -1,6 +1,6 @@
 "use strict";
 const axios = require("axios"),
-	jwt = require("jsonWebToken"),
+	jwt = require("jsonwebtoken"),
 	apiURL = "https://bowtie.mailbutler.io/api/v2/";
 let token, config;
 
