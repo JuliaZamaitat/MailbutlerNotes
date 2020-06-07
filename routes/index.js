@@ -1,9 +1,9 @@
 "use strict";
 
 const router = require("express").Router(),
-   homeRoutes = require("./homeRoutes"),
-   userRoutes = require("./userRoutes"),
-   notesRoutes = require("./notesRoutes");
+	homeRoutes = require("./homeRoutes"),
+	userRoutes = require("./userRoutes"),
+	notesRoutes = require("./notesRoutes");
 
 router.use("/", homeRoutes);
 router.use("/users", userRoutes);

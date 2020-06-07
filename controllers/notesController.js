@@ -10,15 +10,11 @@ module.exports = {
 			.then((notes) => {
 				res.locals.notes = notes.data;
 				next();
-			}).catch(e => {
-				console.log(e);
-				next(e);
-			});
+			}).catch(e => next(e));
 	},
 	indexView: (req, res) => {
 		res.render("notes/index");
 	},
-
 	create: (req, res) => {
 		const params = {
 			context: "Neuer Kontext ohne Mail",
@@ -30,7 +26,6 @@ module.exports = {
 				res.send();
 			}).catch(e => console.log(e));
 	},
-
 	update: (req) => {
 		var text = req.body.text;
 		const params = {
@@ -43,7 +38,6 @@ module.exports = {
 			}).catch(e => console.log(e));
 
 	},
-
 	delete: (req, res) => {
 		let id = req.params.id;
 		return axios.delete(apiURL + "notes/" + id, config)
@@ -52,7 +46,6 @@ module.exports = {
 				res.send();
 			}).catch(e => console.log(e));
 	},
-
 	verifyJWT: (req, res, next) => {
 		token = req.cookies.authToken;
 		config = {
