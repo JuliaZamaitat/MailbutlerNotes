@@ -30,7 +30,6 @@
             window.location = "/notes";
         });
       });
-
       $('.note-text').on('focusout', function(event){
           let note_id = $(this).parents('.card').attr('id');
           let text = $(this).text();
