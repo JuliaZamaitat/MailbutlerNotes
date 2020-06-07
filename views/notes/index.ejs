@@ -1,19 +1,18 @@
 <h1 class="text-center">Notes</h1>
-  <div class="card-columns mt-5 flex-start">
+  <div class="my-notes mt-5">
     <% notes.forEach(n => { %>
-      <div id="<%= n.id%>" class="card small-card shadow-sm m-3">
-        <div class="card-header text-right">
-          <a class="btn delete-button p-0"><i class="far fa-trash-alt"></i></a>
+      <div id="<%= n.id%>" class="card small-card shadow-sm">
+        <div class="card-header text-right p-0">
+          <a class="btn delete-button"><i class="far fa-trash-alt"></i></a>
         </div>
-        <div class="card-body m-0">
+        <div class="card-body pb-0">
             <div class="note-text" contenteditable="true"> <%= n.text %> </div>
         </div>
       </div>
     <% }); %>
-  </div>
-
+    </div>
   <div class="text-center mt-4 add-note">
-    <a class="btn add-button"><i class="fas fa-plus fa-2x"></i></a>
+    <a class="btn add-button text-center"><i class="fas fa-plus fa-2x"></i></a>
   </div>
 
 
@@ -30,21 +29,11 @@
             window.location = "/notes";
         });
       });
-      $('.note-text').on('focusout', function(event){
-          let note_id = $(this).parents('.card').attr('id');
-          let text = $(this).text();
-          $.post("notes/" + note_id, { text: text});
-        });
 
-
-        // $(function() {
-        //
-        //   var e = $(".note-text")
-        //   console.log(e[1]);
-        //   console.log(e[1].scrollHeight);
-        //   console.log(e.scrollHeight > e.clientHeight);
-        //
-        // });
-
+    $('.note-text').on('focusout', function(event){
+        let note_id = $(this).parents('.card').attr('id');
+        let text = $(this).text();
+        $.post("notes/" + note_id, { text: text});
+      });
 
   </script>
