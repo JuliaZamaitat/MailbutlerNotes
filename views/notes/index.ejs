@@ -7,7 +7,6 @@
         <div class="card-body mt-0">
             <div class="note-text" contenteditable="true"> <%= n.text %> </div>
         </div>
-        <div class="card-footer">Footer</div>
       </div>
     <% }); %>
   </div>
@@ -15,7 +14,9 @@
   <script>
     $('.delete-button').on('click', function(event){
         let note_id = $(this).parents('.card').attr('id');
-        $.get("notes/delete/" + note_id);
+        $.get("notes/delete/" + note_id, () => {
+            window.location = "/notes";
+        });
       });
 
       $('.note-text').on('focusout', function(event){

@@ -1,13 +1,13 @@
 .small-card.card {
   background-color: rgba(246,204,118,.35);
-  width: 294px;
+  width: 320px;
 }
 
 .note-text {
   overflow: hidden;
   resize: none;
-  max-height: 80px;
-  height: 80px;
+  max-height: 70px;
+  height: 70px;
   font-size: 14px;
   font-family: Open Sans,sans-serif;
   font-weight: 400;
@@ -21,8 +21,9 @@
 .note-text:active,
 .note-text:focus {
   max-height: 20000px;
-  transition: max-height .5s ease-in-out;
+  min-height: 70px;
   height: auto;
+  transition: max-height .5s ease-in-out;
 }
 
 .card-columns{
@@ -34,4 +35,32 @@
 .card-header {
   background: transparent;
   border: 0;
+}
+
+/* Login */
+
+.data-form {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+form>h2 {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+
+/* Flash Messages */
+
+.flash {
+  background: rgba(103, 120, 209, 0.5);
+  color: #fff;
+  width: 100%;
+  text-align: center;
+  padding: 10px 30px;
+  position: top;
+}
+
+.error {
+  background: rgba(209, 46, 42, 0.7);
 }

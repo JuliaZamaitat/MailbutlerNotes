@@ -1,19 +1,25 @@
 "use strict";
 const axios = require("axios");
-const  httpStatus = require("http-status-codes");
-
 
 module.exports = {
 	login: (req, res) => {
-		//console.log(token);
 		return axios.post("https://bowtie.mailbutler.io/api/v2/users/login",
 			{ email: req.body.email,
 				password: req.body.password
 			})
 			.then((session) => {
 				res.cookie("authToken",session.data.token);
-				res.render("index");
-			}).catch(e => console.log(e));
+				res.locals.loggedIn = true;
+				res.redirect("/notes");
+			}).catch(() => {
+				req.flash("error", "Failed to login, please check your username or password.");
+				res.redirect("/");
+			});
+	},
+	logout: (req, res) => {
+		res.clearCookie("authToken");
+		res.locals.loggedIn = false;
+		req.flash("success", "You have been logged out!");
+		res.redirect("/");
 	}
-
 };

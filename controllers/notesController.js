@@ -1,10 +1,8 @@
 "use strict";
 const axios = require("axios");
 const jwt = require("jsonWebToken");
-const  httpStatus = require("http-status-codes");
 
 module.exports = {
-
 	index: (req, res, next) => {
 		var token = req.cookies.authToken;
 		const config = {
@@ -12,7 +10,6 @@ module.exports = {
 		};
 		return axios.get("https://bowtie.mailbutler.io/api/v2/notes", config)
 			.then((notes) => {
-				console.log(notes.data);
 				res.locals.notes = notes.data;
 				next();
 			}).catch(e => {
@@ -26,7 +23,6 @@ module.exports = {
 	update: (req, res) => {
 		var token = req.cookies.authToken;
 		var text = req.body.text;
-		console.log("Neuer Text" + text);
 		const config = {
 			headers: { Authorization: `Bearer ${token}` },
 		};
@@ -49,7 +45,8 @@ module.exports = {
 		let id = req.params.id;
 		return axios.delete(`https://bowtie.mailbutler.io/api/v2/notes/${id}`, config)
 			.then(() => {
-				console.log("Note deleted");
+				req.flash("success", "Note deleted");
+				res.send();
 			}).catch(e => console.log(e));
 	},
 
@@ -65,30 +62,18 @@ module.exports = {
 				//check if token is still valid
 				if(payload.exp < (dateNow.getTime()/1000)){ //token expired
 					res.locals.loggedIn = false;
-					res.status(httpStatus.UNAUTHORIZED).json({
-						error: true,
-						message: "Token expired"
-					});
-
+					res.redirect("/");
 				} else { //everythings fine
-					console.log("everythings fine");
 					res.locals.loggedIn = true;
 					next();
 				}
 			} else { //No payload
 				res.locals.loggedIn = false;
-				res.status(httpStatus.UNAUTHORIZED).json({
-					error: true,
-					message: "Not correct token provided"
-				});
-
+				res.redirect("/");
 			}
 		} else { //No token provided
 			res.locals.loggedIn = false;
-			res.status(httpStatus.UNAUTHORIZED).json({
-				error: true,
-				message: "No token provided"
-			});
+			res.redirect("/");
 		}
 	}
 };

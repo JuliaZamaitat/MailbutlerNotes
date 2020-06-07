@@ -4,12 +4,13 @@ const express = require("express"),
   app = express(),
   layouts = require("express-ejs-layouts"),
   methodOverride = require("method-override"),
-  //expressSession = require("express-session"),
+  expressSession = require("express-session"),
   cookieParser = require("cookie-parser"),
-  // connectFlash = require("connect-flash"),
+  connectFlash = require("connect-flash"),
   router = require("./routes/index"),
   axios = require("axios"),
-  jwt = require("jsonwebtoken");
+  jwt = require("jsonwebtoken"),
+  keygen = require("keygenerator");
 
 
 app.set("view engine", "ejs");
@@ -28,21 +29,30 @@ app.use(methodOverride("_method", {
   methods: ["POST", "GET"]
 }));
 
-app.use(cookieParser("secret_passcode"));
+const sessionID = keygen.session_id()
+app.use(cookieParser(sessionID));
+app.use(expressSession({ //Configure express-session to use cookie-parser
+  secret: sessionID,
+  cookie: {
+    maxAge: 4000000
+  },
+  resave: false,
+  saveUninitialized: false
+}));
+app.use(connectFlash());
 
 app.use((req, res, next) => {
-  // check if client sent cookie
-  var cookie = req.cookies.authToken;
-  if (cookie === undefined) {
-    // no: set a new cookie
-    res.locals.loggedIn = false;
-    //res.cookie('cookieName',randomNumber, { maxAge: 900000, httpOnly: true });
-    console.log('no cookie');
-  } else {
-    // yes, cookie was already present
-    res.locals.loggedIn = true;
-    console.log('cookie exists', cookie);
+  res.locals.flashMessages = req.flash();
+  let cookies = req.cookies;
+  if (cookies){
+    let token = cookies.authToken;
+    if (!token) {
+      res.locals.loggedIn = false;
+    }
   }
+  // res.locals.loggedIn = req.isAuthenticated();
+  // console.log("Logged" +res.locals.loggedIn);
+  // res.locals.currentUser = req.user;
   next();
 });
 

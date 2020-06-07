@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html>
 
@@ -17,7 +19,36 @@
 </head>
 
 <body>
-	<div id="nav"></div>
+
+	<div class="flashes">
+			<% if (flashMessages) { %>
+			<% if (flashMessages.success) { %>
+			<div class="flash success">
+				<%= flashMessages.success %>
+			</div>
+			<% } else if (flashMessages.error) { %>
+			<div class="flash error">
+				<%= flashMessages.error %>
+			</div>
+			<% } %>
+			<% } %>
+		</div>
+		
+	<div id="nav">
+		<div class="login-status text-right mt-3 mr-3">
+			<% if (loggedIn)  { %>
+					Logged in
+				<a href="/users/logout"><i class="fas fa-sign-out-alt ml-2"></i></a>
+			<%} else {%>
+			<div class="bubble log-in">
+				<a href="/">Log In</a>
+			</div>
+			<% } %>
+		</div>
+
+	</div>
+
+
 
 	<div class="container-xl mt-5">
 		<%- body %>
@@ -26,3 +57,17 @@
 </body>
 
 </html>
+
+<script>
+
+	$(function() {
+		if (window.location.pathname == "/") {
+			$('.log-in').hide();
+	  }
+	});
+
+	setTimeout(function() {
+			$(".flash").fadeOut("slow");
+	}, 2000);
+
+</script>
